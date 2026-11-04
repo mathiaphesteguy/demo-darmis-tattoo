@@ -1,0 +1,433 @@
+<title>Obsidia Tattoo Estudio</title>
+<meta name="description" content="Demo de sitio para estudio de tatuajes. Datos ficticios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: editorial oscuro a pantalla completa, tipografía gigante, bandas de texto en movimiento, retícula de tarjetas 3→2→1 */
+:root{
+  --bg:#060606; --fg:#f6f5f3; --muted:#8a8784; --line:rgba(246,245,243,.14); --ink:#141110; --ember:#b3261e; --soft:#d4d1cd;
+  --font:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --pad:clamp(16px,3.2vw,48px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+.up{text-transform:uppercase}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) var(--pad) 20px;transition:background .4s}
+.nav.solid{background:rgba(6,6,6,.75);backdrop-filter:blur(14px)}
+.logo{font-weight:900;font-size:15px;letter-spacing:.04em}
+.logo sup{font-size:.55em;font-weight:500}
+.nav-links{display:flex;gap:32px;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.nav-links a{position:relative;overflow:hidden;display:inline-block;height:1.2em;line-height:1.2em}
+.nav-links a span{display:block;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.nav-links a span+span{position:absolute;top:100%}
+.nav-links a:hover span{transform:translateY(-100%)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border:1px solid var(--fg);border-radius:999px;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;transition:background .3s,color .3s;background:transparent;color:var(--fg);cursor:pointer;font-family:inherit}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.btn.fill{background:var(--fg);color:var(--bg)}
+.btn.fill:hover{background:transparent;color:var(--fg)}
+.burger{display:none;background:none;border:0;width:28px;height:18px;position:relative;cursor:pointer}
+.burger i{position:absolute;left:0;right:0;height:1.5px;background:var(--fg);transition:.3s}
+.burger i:nth-child(1){top:0}.burger i:nth-child(2){top:8px}.burger i:nth-child(3){top:16px}
+.menu-open .burger i:nth-child(1){top:8px;transform:rotate(45deg)}
+.menu-open .burger i:nth-child(2){opacity:0}
+.menu-open .burger i:nth-child(3){top:8px;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:var(--pad);gap:8px;clip-path:inset(0 0 100% 0);transition:clip-path .6s cubic-bezier(.7,0,.2,1)}
+.menu-open .mobile-menu{clip-path:inset(0 0 0 0)}
+.mobile-menu a{font-size:clamp(40px,12vw,72px);font-weight:900;text-transform:uppercase;line-height:1}
+
+/* HERO */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--pad) 120px;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-2;overflow:hidden;container-type:size;opacity:.8}
+.hero-photo{position:absolute;left:50%;top:50%;width:max(100cqw,calc(100cqh*1200/1655));aspect-ratio:1200/1655;max-width:none;translate:-50% -50%;scale:1.08;animation:drift 22s ease-in-out infinite alternate}
+.hero-photo > img{width:100%;height:100%}
+.tattoo{position:absolute;left:49.5%;top:47%;width:25%;aspect-ratio:1;translate:-50% -50%;rotate:-1.5deg;mix-blend-mode:multiply;opacity:.9;clip-path:inset(0 0 100% 0);animation:ink 1.8s .4s cubic-bezier(.6,0,.2,1) forwards}
+.tattoo svg{width:100%;height:100%;filter:blur(.35px)}
+@keyframes ink{to{clip-path:inset(0 0 0 0)}}
+@keyframes drift{to{scale:1.15}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 60% 40%,transparent 0,rgba(6,6,6,.6) 60%,var(--bg) 100%),linear-gradient(transparent 60%,var(--bg))}
+.hero-info{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.hero-title{max-width:560px}
+.hero-title hr{border:0;border-top:1px solid var(--fg);width:80px;margin:0 0 18px}
+.hero-title h1{font-weight:500;font-size:clamp(24px,3vw,40px);line-height:1.08;text-transform:uppercase;letter-spacing:-.01em}
+.hero-title hr.b{margin:20px 0 0}
+.hero-tag{font-size:clamp(17px,1.5vw,21px);line-height:1.45}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:500;letter-spacing:.1em;display:flex;flex-direction:column;align-items:center;gap:10px;white-space:nowrap}
+.scroll-hint i{width:1px;height:40px;background:linear-gradient(var(--fg),transparent);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+.full-img{height:clamp(420px,95vh,1000px);overflow:hidden;position:relative}
+.full-img img{width:100%;height:120%;object-fit:cover;will-change:transform}
+
+/* ABOUT */
+section{position:relative}
+.about{padding:clamp(90px,14vw,200px) var(--pad);display:grid;grid-template-columns:1fr 2fr;gap:48px}
+.about > *{min-width:0}
+.about h2{font-size:clamp(28px,3.4vw,48px);font-weight:900;line-height:1;text-transform:uppercase;margin-top:14px;letter-spacing:-.02em}
+.reveal-text{font-size:clamp(26px,3.6vw,54px);line-height:1.12;font-weight:500;letter-spacing:-.02em}
+.reveal-text .w{opacity:.28;transition:opacity .25s}
+.reveal-text .w.on{opacity:1}
+.about .btn{margin-top:44px}
+
+/* STATS */
+.stats-head{padding:0 var(--pad);font-size:clamp(44px,8vw,128px);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:56px}
+.stat{padding:40px var(--pad);border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-size:clamp(48px,6vw,96px);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:14px}
+
+/* STORY */
+.story{position:relative;padding:clamp(90px,12vw,180px) var(--pad);overflow:hidden;isolation:isolate}
+.story-bg{position:absolute;inset:0;background:url("img/vMxZp9gvxFHDsZEDGlbUSodEtxc.webp") center/cover;opacity:.35;z-index:-1}
+.story-list{max-width:520px;margin-left:clamp(0px,6vw,120px);border-left:1px solid var(--fg);padding-left:clamp(22px,3vw,44px);display:flex;flex-direction:column;gap:clamp(70px,10vw,140px)}
+.story-item h3{font-size:clamp(24px,2.6vw,34px);font-weight:500;text-transform:uppercase;margin:12px 0 18px;letter-spacing:-.01em}
+.story-item p{font-size:17px;line-height:1.55;color:var(--soft)}
+
+/* MARQUEE */
+.marquees{padding:20px 0 clamp(70px,9vw,140px);overflow:hidden}
+.mq{display:flex;white-space:nowrap;font-weight:900;font-size:clamp(48px,8.5vw,132px);text-transform:uppercase;letter-spacing:-.03em;line-height:1.05}
+.mq .track{display:flex;flex-shrink:0;animation:mq 38s linear infinite}
+.mq.rev .track{animation-direction:reverse}
+.mq.ghost{color:transparent;-webkit-text-stroke:1.2px rgba(246,245,243,.5)}
+.mq span{padding:0 .35em}
+@keyframes mq{to{transform:translateX(-100%)}}
+
+/* SERVICES */
+.services-hero{position:relative;min-height:90vh;display:flex;flex-direction:column;justify-content:flex-end;padding:var(--pad);padding-bottom:clamp(40px,6vw,80px);overflow:hidden;isolation:isolate}
+.services-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.services-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(6,6,6,.15),rgba(6,6,6,.85) 85%)}
+.services-hero h2{font-size:clamp(56px,10vw,170px);font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-.045em;margin-top:16px}
+.services-hero p{max-width:460px;font-size:17px;line-height:1.55;margin-top:28px;color:var(--soft)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,24px);padding:clamp(40px,5vw,72px) var(--pad) clamp(90px,10vw,150px)}
+.card{position:relative;min-width:0}
+.card .ph{position:relative;overflow:hidden;aspect-ratio:4/5;max-width:100%;background:#111}
+.card .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:transform 1s cubic-bezier(.2,.8,.2,1),filter .6s}
+.card:hover .ph img{transform:scale(1.06);filter:grayscale(0)}
+.pill{position:absolute;top:14px;left:14px;padding:7px 12px;border-radius:999px;background:rgba(6,6,6,.6);backdrop-filter:blur(8px);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:#7fd49a}
+.pill.lim::before{background:#e8b84a}
+.card .explore{position:absolute;inset:auto 14px 14px 14px;display:flex;justify-content:center;padding:14px;background:var(--fg);color:var(--bg);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transform:translateY(16px);opacity:0;transition:.45s cubic-bezier(.2,.8,.2,1)}
+.card:hover .explore{transform:none;opacity:1}
+.card h3{font-size:22px;font-weight:700;text-transform:uppercase;margin-top:18px;letter-spacing:-.01em}
+.card .role{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:4px;font-weight:500}
+.card p{margin-top:12px;font-size:15px;line-height:1.5;color:var(--soft)}
+
+/* REVIEWS */
+.reviews,.faq{padding:clamp(90px,12vw,170px) var(--pad);display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(40px,6vw,96px);border-top:1px solid var(--line)}
+.reviews > *,.faq > *{min-width:0}
+.reviews h2,.faq h2,.contact h2{font-size:clamp(40px,5.6vw,88px);font-weight:900;text-transform:uppercase;line-height:.92;letter-spacing:-.04em;margin-top:16px}
+.lead{color:var(--soft);font-size:17px;line-height:1.55;margin-top:24px;max-width:420px}
+.quotes{display:flex;flex-direction:column;gap:0}
+.quote{padding:32px 0;border-top:1px solid var(--line)}
+.quote:last-child{border-bottom:1px solid var(--line)}
+.quote p{font-size:clamp(19px,1.8vw,25px);line-height:1.35;font-weight:500;letter-spacing:-.01em}
+.quote footer{display:flex;justify-content:space-between;gap:16px;margin-top:18px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0;border:0}
+.quote .stars{color:var(--fg);letter-spacing:3px}
+
+/* FAQ */
+.faq .lead{margin:24px 0 36px}
+.qa{border-top:1px solid var(--line)}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa button{width:100%;background:none;border:0;color:var(--fg);font:inherit;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;text-align:left;cursor:pointer;font-size:clamp(17px,1.5vw,21px);font-weight:500;text-transform:uppercase}
+.qa .pm{flex-shrink:0;width:16px;height:16px;position:relative}
+.qa .pm::before,.qa .pm::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;background:var(--fg);transition:transform .4s}
+.qa .pm::after{transform:rotate(90deg)}
+.qa.open .pm::after{transform:rotate(0)}
+.qa .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.qa.open .a{grid-template-rows:1fr}
+.qa .a > div{overflow:hidden}
+.qa .a p{padding:0 40px 28px 0;color:var(--soft);font-size:16px;line-height:1.6}
+
+/* CONTACT */
+.contact{padding:clamp(90px,12vw,170px) var(--pad) clamp(60px,8vw,110px);border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:clamp(30px,4vw,64px);margin-top:clamp(50px,6vw,90px)}
+.contact-grid > *{min-width:0}
+.contact-grid h4{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.08em;margin-bottom:16px}
+.contact-grid p{font-size:19px;line-height:1.5}
+.contact-grid .muted{color:var(--muted);font-size:15px;margin-top:6px}
+.contact .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.map-card{position:relative;aspect-ratio:4/3;max-width:100%;border:1px solid var(--line);overflow:hidden;background:
+  repeating-linear-gradient(32deg,transparent 0 46px,rgba(246,245,243,.07) 46px 48px),
+  repeating-linear-gradient(-58deg,transparent 0 70px,rgba(246,245,243,.07) 70px 72px),#0d0d0d}
+.map-card::before{content:"";position:absolute;left:0;right:0;top:54%;height:14px;background:rgba(246,245,243,.12);rotate:-8deg}
+.map-card .pin{position:absolute;left:52%;top:46%;width:18px;height:18px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 8px rgba(179,38,30,.25),0 0 0 18px rgba(179,38,30,.1)}
+.map-card span{position:absolute;left:16px;bottom:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.form-ok{margin-top:16px;font-size:14px;color:var(--soft)}
+
+/* FOOTER */
+.site-foot{border-top:1px solid var(--line);padding:clamp(60px,8vw,110px) var(--pad) 80px;overflow:hidden}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+.foot-top h4{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.08em;margin-bottom:16px}
+.foot-top a{display:block;font-size:16px;line-height:2;width:fit-content}
+.foot-top a:hover{opacity:.6}
+.big-logo{font-weight:900;font-size:clamp(64px,17vw,300px);letter-spacing:-.055em;line-height:.8;margin-top:clamp(60px,8vw,120px);white-space:nowrap}
+.big-logo sup{font-size:.18em;vertical-align:top;letter-spacing:0;font-weight:500;position:relative;top:.4em}
+.foot-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:28px;font-size:13px;color:var(--muted)}
+
+/* REVEAL: visible en reposo; solo se desplaza suavemente al entrar */
+.rv{transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.js .rv.pre{transform:translateY(32px)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+@media (max-width:900px){
+  .nav-links,.nav .btn{display:none}
+  .burger{display:block}
+  .about,.reviews,.faq{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .cards{grid-template-columns:1fr 1fr}
+  .contact-grid,.foot-top{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:1fr}
+  .card .explore{opacity:1;transform:none}
+  .stat{padding:28px 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .tattoo{clip-path:none}.reveal-text .w{opacity:1}.js .rv.pre{transform:none}
+}
+</style>
+
+<script>document.documentElement.classList.add('js')</script>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo">OBSIDIA<sup>®</sup></a>
+  <nav class="nav-links" aria-label="Principal">
+    <a href="#estudio"><span>Estudio</span><span>Estudio</span></a>
+    <a href="#servicios"><span>Servicios</span><span>Servicios</span></a>
+    <a href="#resenas"><span>Reseñas</span><span>Reseñas</span></a>
+    <a href="#faq"><span>FAQ</span><span>FAQ</span></a>
+    <a href="#contacto"><span>Contacto</span><span>Contacto</span></a>
+  </nav>
+  <a class="btn" href="#contacto">Reservar</a>
+  <button class="burger" id="burger" aria-label="Abrir menú"><i></i><i></i><i></i></button>
+</header>
+<div class="mobile-menu" id="mmenu">
+  <a href="#estudio">Estudio</a><a href="#servicios">Servicios</a><a href="#resenas">Reseñas</a><a href="#faq">FAQ</a><a href="#contacto">Contacto</a>
+</div>
+
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <div class="hero-photo">
+      <img src="img/hero-back.webp" alt="">
+      <div class="tattoo" aria-label="Logo de Obsidia tatuado en la espalda" role="img">
+        <!-- logo original: luna creciente, fragmento de obsidiana y banda -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 40 A62 62 0 1 0 160 128 A50 50 0 1 1 60 40 Z" fill="#b3261e" opacity=".9"/>
+          <g fill="none" stroke="#141110" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M60 40 A62 62 0 1 0 160 128 A50 50 0 1 1 60 40 Z"/>
+            <polygon points="100,14 126,62 112,156 100,186 88,156 74,62" fill="#f6f5f3"/>
+            <path d="M74 62 L126 62 M100 14 L100 186 M74 62 L100 96 L126 62 M88 156 L100 96 L112 156"/>
+            <path d="M28 104 L36 104 M164 104 L172 104 M32 100 L32 108 M168 100 L168 108"/>
+            <circle cx="46" cy="70" r="2" fill="#141110"/><circle cx="156" cy="74" r="2" fill="#141110"/><circle cx="150" cy="160" r="2" fill="#141110"/>
+            <path d="M22 112 L44 112 L40 122 L44 132 L22 132 L30 122 Z" fill="#f6f5f3"/>
+            <path d="M178 112 L156 112 L160 122 L156 132 L178 132 L170 122 Z" fill="#f6f5f3"/>
+            <path d="M40 108 L160 108 L160 136 L40 136 Z" fill="#f6f5f3"/>
+          </g>
+          <text x="100" y="129" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="900" font-size="22" letter-spacing="3" fill="#141110">OBSIDIA</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="hero-info">
+    <div class="hero-title rv">
+      <hr>
+      <h1>Estudio de tatuajes<br>y piercing<br>en Montevideo</h1>
+      <hr class="b">
+    </div>
+    <p class="hero-tag rv d1">Tatuajes a medida.<br>Diseño con intención.<br>Higiene sin concesiones.</p>
+  </div>
+  <a href="#estudio" class="scroll-hint">DESLIZÁ PARA EXPLORAR<i></i></a>
+</section>
+
+<div class="full-img"><img data-parallax src="img/4QVUPNQXZGaqmOp3Vg3u8mvIhU.jpg" alt="Tatuaje en la espalda"></div>
+
+<!-- ABOUT -->
+<section class="about" id="estudio">
+  <div class="rv">
+    <p class="eyebrow">Sobre Obsidia</p>
+    <h2>Hecho con<br>intención.</h2>
+  </div>
+  <div>
+    <p class="reveal-text" id="reveal">Un estudio en el Centro de Montevideo, enfocado en trabajo personalizado, buena onda y una atención uno a uno. Cada pieza se diseña para pertenecer a quien la lleva, con material descartable y esterilización en cada sesión.</p>
+    <a href="#contacto" class="btn">Conocé el estudio</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<section>
+  <h2 class="stats-head rv">De la idea<br>a la tinta.</h2>
+  <div class="stats">
+    <div class="stat rv"><b><span data-count="4.9" data-dec="1">4,9</span>★</b><span class="eyebrow">Puntuación promedio</span></div>
+    <div class="stat rv d1"><b><span data-count="520">520</span></b><span class="eyebrow">Reseñas de clientes</span></div>
+    <div class="stat rv d2"><b><span data-count="11">11</span></b><span class="eyebrow">Años de oficio</span></div>
+    <div class="stat rv d3"><b><span data-count="8">8</span>K</b><span class="eyebrow">Tatuajes realizados</span></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-bg"></div>
+  <div class="story-list">
+    <div class="story-item rv">
+      <p class="eyebrow">2014 / El comienzo</p>
+      <h3>Una mesa y una máquina</h3>
+      <p>Obsidia empezó como un pequeño taller con una sola camilla. La idea era simple: dibujar cada pieza desde cero y dedicarle a cada cliente el tiempo que merece.</p>
+    </div>
+    <div class="story-item rv">
+      <p class="eyebrow">2019 / La base</p>
+      <h3>Construido sobre el oficio</h3>
+      <p>Tribales, freehand, línea fina, sombras y cover-ups. Miles de horas de máquina nos enseñaron que la paciencia, la precisión y el respeto por la piel importan tanto como el diseño.</p>
+    </div>
+    <div class="story-item rv">
+      <p class="eyebrow">Hoy / El estudio</p>
+      <h3>Un estudio con propósito</h3>
+      <p>Tatuajes y piercing con atención personalizada. Acompañamos a cada cliente desde el primer boceto hasta los cuidados posteriores, para que la experiencia sea segura y cómoda.</p>
+    </div>
+  </div>
+</section>
+
+<div class="marquees" aria-hidden="true">
+  <div class="mq"><div class="track"><span>Líneas firmes</span><span>•</span><span>Sombras suaves</span><span>•</span><span>Freehand</span><span>•</span><span>Arte atemporal</span><span>•</span></div><div class="track"><span>Líneas firmes</span><span>•</span><span>Sombras suaves</span><span>•</span><span>Freehand</span><span>•</span><span>Arte atemporal</span><span>•</span></div></div>
+  <div class="mq rev ghost"><div class="track"><span>Agenda abierta</span><span>•</span><span>Diseños a medida</span><span>•</span><span>Estéril y seguro</span><span>•</span><span>Piercing</span><span>•</span></div><div class="track"><span>Agenda abierta</span><span>•</span><span>Diseños a medida</span><span>•</span><span>Estéril y seguro</span><span>•</span><span>Piercing</span><span>•</span></div></div>
+</div>
+
+<!-- SERVICES -->
+<section id="servicios">
+  <div class="services-hero">
+    <img src="img/I1M7kCWKIRESKlDhT65PTEHUX0.jpg" alt="Tatuador trabajando">
+    <p class="eyebrow rv">Lo que hacemos</p>
+    <h2 class="rv d1">Arte en la piel.<br>Hecho a tu medida.</h2>
+    <p class="rv d2">Cada estilo tiene su técnica y cada piel su historia. Contanos tu idea y te asesoramos en diseño, tamaño y ubicación para que el resultado te acompañe toda la vida.</p>
+  </div>
+  <div class="cards">
+    <article class="card rv"><div class="ph"><img src="img/3WM5k34dyqLooQQUrKreZJ3Cs.webp" alt=""><span class="pill">Agenda abierta</span><span class="explore">Consultar</span></div><h3>Tatuajes a medida</h3><p class="role">Diseño personalizado</p><p>Desarrollamos tu idea desde cero junto a vos, adaptada a tu cuerpo y tu estilo.</p></article>
+    <article class="card rv d1"><div class="ph"><img src="img/Tt8JeqsCZT52avl9l1iQC5l9zZU.webp" alt=""><span class="pill">Agenda abierta</span><span class="explore">Consultar</span></div><h3>Freehand &amp; tribales</h3><p class="role">Dibujo directo sobre la piel</p><p>Piezas que siguen el movimiento del cuerpo, dibujadas a mano alzada antes de tatuar.</p></article>
+    <article class="card rv d2"><div class="ph"><img src="img/4gZ27kqD1UJeUEenTQj823uzqqM.webp" alt=""><span class="pill lim">Previa consulta</span><span class="explore">Consultar</span></div><h3>Cover-ups</h3><p class="role">Tapado y renovación</p><p>Evaluamos tu tatuaje actual en una consulta inicial y diseñamos la mejor forma de transformarlo.</p></article>
+    <article class="card rv"><div class="ph"><img src="img/ayR4MmMwQT56EBw30OWEMVkDUA.webp" alt=""><span class="pill">Agenda abierta</span><span class="explore">Consultar</span></div><h3>Black &amp; grey</h3><p class="role">Realismo y sombras</p><p>Degradés suaves y contraste preciso para piezas medianas y grandes.</p></article>
+    <article class="card rv d1"><div class="ph"><img src="img/jFLTLXrRWQJhaXvbucx05kJ4otM.webp" alt=""><span class="pill">Agenda abierta</span><span class="explore">Consultar</span></div><h3>Línea fina</h3><p class="role">Minimal &amp; delicado</p><p>Trazos finos y composiciones limpias, ideales para una primera pieza.</p></article>
+    <article class="card rv d2"><div class="ph"><img src="img/Zm7AD8f8kMomvSp7qf3G318rlE.webp" alt=""><span class="pill">Sin turno previo</span><span class="explore">Consultar</span></div><h3>Piercing</h3><p class="role">Material estéril</p><p>Perforaciones con material descartable y joyería adecuada para una buena cicatrización.</p></article>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="resenas">
+  <div class="rv">
+    <p class="eyebrow">Reseñas de ejemplo</p>
+    <h2>Palabras<br>desde la silla.</h2>
+    <p class="lead">En el sitio final, acá van las reseñas reales del estudio. Estas son de ejemplo, para mostrar cómo se ven.</p>
+  </div>
+  <div class="quotes rv d1">
+    <blockquote class="quote"><p>Llegué con una idea vaga y salí con una pieza que parece hecha para mi espalda. Me explicaron todo con mucha paciencia.</p><footer><span>Cliente de ejemplo</span><span class="stars">★★★★★</span></footer></blockquote>
+    <blockquote class="quote"><p>Impecable la higiene: todo descartable y abierto delante mío. El cover-up quedó mejor de lo que imaginaba.</p><footer><span>Cliente de ejemplo</span><span class="stars">★★★★★</span></footer></blockquote>
+    <blockquote class="quote"><p>Muy buena onda desde el primer mensaje. Me hice el primer tatuaje y me sentí cómoda todo el tiempo.</p><footer><span>Cliente de ejemplo</span><span class="stars">★★★★★</span></footer></blockquote>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="rv">
+    <p class="eyebrow">Preguntas frecuentes</p>
+    <h2>Hablemos.</h2>
+    <p class="lead">Algunas cosas para saber antes de reservar. Para cualquier duda sobre tu pieza, escribinos y te guiamos en el proceso.</p>
+    <a class="btn" href="#contacto">Escribinos</a>
+  </div>
+  <div class="rv d1">
+    <div class="qa open"><button>¿Cómo reservo un turno?<span class="pm"></span></button><div class="a"><div><p>Escribinos por WhatsApp con tu idea, la zona del cuerpo, el tamaño aproximado y referencias. Te respondemos con disponibilidad y los próximos pasos.</p></div></div></div>
+    <div class="qa"><button>¿Atienden sin turno?<span class="pm"></span></button><div class="a"><div><p>Para tatuajes recomendamos reservar con anticipación. Para piercing y diseños chicos podés acercarte en horario de atención.</p></div></div></div>
+    <div class="qa"><button>¿Puedo traer mi propio diseño?<span class="pm"></span></button><div class="a"><div><p>Sí. Lo revisamos juntos y lo adaptamos a la zona y al tamaño para que funcione bien en la piel y envejezca de la mejor manera.</p></div></div></div>
+    <div class="qa"><button>¿Hacen cover-ups?<span class="pm"></span></button><div class="a"><div><p>Sí. Empezamos con una consulta para evaluar el tatuaje existente y proponerte el mejor diseño para cubrirlo o renovarlo.</p></div></div></div>
+    <div class="qa"><button>¿Cómo me preparo?<span class="pm"></span></button><div class="a"><div><p>Dormí bien, comé antes de venir, hidratate y evitá el alcohol las 24 horas previas. Traé ropa cómoda que deje accesible la zona a tatuar.</p></div></div></div>
+    <div class="qa"><button>¿Cuánto sale un tatuaje?<span class="pm"></span></button><div class="a"><div><p>Depende del tamaño, la complejidad, la ubicación y el estilo. Mandanos tu idea y te pasamos un presupuesto sin compromiso.</p></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <p class="eyebrow rv">Contacto</p>
+  <h2 class="rv d1">Empecemos<br>una conversación.</h2>
+  <div class="contact-grid">
+    <div class="rv">
+      <h4 class="up">Ubicación</h4>
+      <p>Calle Ejemplo 1234<br>Centro, Montevideo</p>
+      <p class="muted">Dirección de ejemplo</p>
+      <h4 class="up" style="margin-top:36px">Horarios</h4>
+      <p>Lun a Vie · 10:00 – 20:00</p>
+      <p>Sábados · 11:00 – 18:00</p>
+      <p class="muted">Domingos cerrado</p>
+    </div>
+    <div class="rv d1">
+      <h4 class="up">Contacto</h4>
+      <p>099 000 000 · WhatsApp</p>
+      <p>hola@obsidia.example</p>
+      <p class="muted">Datos de ejemplo</p>
+      <div class="btns">
+        <button class="btn fill" id="inq" type="button">Enviar consulta</button>
+        <a class="btn" href="#top">Volver arriba</a>
+      </div>
+      <p class="form-ok" id="inq-msg" hidden>En el sitio final, este botón abre el WhatsApp del estudio.</p>
+    </div>
+    <div class="rv d2">
+      <div class="map-card" aria-hidden="true"><i class="pin"></i><span>Mapa del estudio</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="foot-top">
+    <div><p class="eyebrow">Obsidia — Estudio de tatuajes y piercing</p></div>
+    <div><h4 class="up">Links</h4><a href="#estudio">Estudio</a><a href="#servicios">Servicios</a><a href="#resenas">Reseñas</a><a href="#contacto">Contacto</a></div>
+    <div><h4 class="up">Social</h4><a href="#contacto">Instagram</a><a href="#contacto">Facebook</a><a href="#contacto">WhatsApp</a></div>
+  </div>
+  <div class="big-logo">OBSIDIA<sup>®</sup></div>
+  <div class="foot-bottom"><span>© 2026 Obsidia. Estudio ficticio creado para esta demo.</span><span>Montevideo, Uruguay</span></div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60),{passive:true});
+document.getElementById('burger').onclick=()=>document.body.classList.toggle('menu-open');
+document.querySelectorAll('#mmenu a').forEach(a=>a.onclick=()=>document.body.classList.remove('menu-open'));
+document.getElementById('inq').onclick=()=>{document.getElementById('inq-msg').hidden=false};
+
+// reveal: elements below the fold get a small offset that settles when they enter
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight){el.classList.add('pre');io.observe(el)}});
+
+// counters
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,to=parseFloat(el.dataset.count),dec=+el.dataset.dec||0,t0=performance.now();
+  (function f(t){const p=Math.min((t-t0)/1600,1),v=to*(1-Math.pow(1-p,3));el.textContent=v.toFixed(dec).replace('.',',');if(p<1)requestAnimationFrame(f)})(t0)}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight)co.observe(el)});
+
+// word reveal + parallax
+const rt=document.getElementById('reveal');
+rt.innerHTML=rt.textContent.trim().split(/\s+/).map(w=>`<span class="w">${w}</span>`).join(' ');
+const words=[...rt.querySelectorAll('.w')];
+const px=document.querySelector('[data-parallax]');
+function onScroll(){
+  const r=rt.getBoundingClientRect(),vh=innerHeight;
+  const p=Math.min(Math.max((vh*.85-r.top)/(r.height+vh*.35),0),1);
+  const n=Math.round(p*words.length);
+  words.forEach((w,i)=>w.classList.toggle('on',i<n));
+  const pr=px.parentElement.getBoundingClientRect();
+  if(pr.bottom>0&&pr.top<vh)px.style.transform=`translateY(${(pr.top/vh)*-12}%)`;
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+document.querySelectorAll('.qa button').forEach(b=>b.onclick=()=>{const q=b.parentElement,o=q.classList.contains('open');document.querySelectorAll('.qa').forEach(x=>x.classList.remove('open'));if(!o)q.classList.add('open')});
+</script>
